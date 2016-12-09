@@ -12,8 +12,8 @@ public class Game {
     Player[] players = {player1, player2};
 
     void printMenu(){
-        int i=-1;
-        while (i==-1){
+        int i = -1;
+        while (i == -1){
             System.out.println("Welcome the this amazing bowling game! ");
             System.out.println("Please type 0 to the see the rules");
             System.out.println("Please type 1 to start a game");
@@ -25,14 +25,28 @@ public class Game {
             }
             if (i == 0){
                 System.out.println("Please, follow this link to continue: http://www.pba.com/Resources/Bowling101 ");
-                return;
+                i = -1;
             }
             if (i == 1){
+                for (Player player: players) {
+                    getPlayerNames(player);
+                }
+                System.out.println("Let's start the game, folks!");
                 return;
             }
         }
     }
-
+    void getPlayerNames(Player player){
+        System.out.println("Please enter the name of the player");
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String name = null;
+        try{
+            name = br.readLine();
+        }catch(Exception nfe){
+            System.err.println("Invalid Format!");
+        }
+        player.name = name;
+    }
     void printScore(){
         System.out.println("Score:");
         for (Player player: players){
@@ -44,9 +58,6 @@ public class Game {
     public static void main(String [] args)
     {
         Game game = new Game();
-        int menuOption;
-
-
         game.printMenu();
         game.printScore();
     }
