@@ -2,20 +2,59 @@ package fr.excilys.formation.bowliwood;
 
 import org.junit.Test;
 
-import java.util.Random;
-
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 /**
  * Created by tiberio on 09/12/2016.
  */
 public class PlayerTest {
-    Player test_player = new Player("test");
+    Player p = new Player();
+
+    private void rollSeveral(int nTimes, int pins){
+        for (int i = 0; i < nTimes; i++)
+            p.roll(pins);
+    }
+
+    private void rollSpare(){
+        p.roll(5);
+        p.roll(5);
+    }
+
+    private void rollStrike(){
+        p.roll(10);
+    }
+
     @Test
-    public void testPinsHit(){
-        Random rand = new Random(10);
-        int pinsLeft = rand.nextInt(10);
-        int result = test_player.pinsHit(pinsLeft);
-        boolean validRange = (result>=0) && (result<=pinsLeft);
-        assertTrue("The number of pins hit is between 0 and 10", validRange);
+    public void testNullScore(){
+        rollSeveral(20, 0);
+        assertEquals(p.getScore(10), 0);
+    }
+
+    @Test
+    public void testAllOnes(){
+        rollSeveral(20, 1);
+        assertEquals(p.getScore(10), 20);
+    }
+
+    @Test
+    public void testRollSpare(){
+        rollSpare();
+        p.roll(2);
+        rollSeveral(17, 0);
+        assertEquals(p.getScore(10), 14);
+    }
+
+    @Test
+    public void testOneStrike(){
+        rollStrike();
+        p.roll(2);
+        p.roll(2);
+        rollSeveral(16, 0);
+        assertEquals(p.getScore(10), 18);
+    }
+
+    @Test
+    public void testPerfectGame(){
+        rollSeveral(12, 10);
+        assertEquals(p.getScore(10), 300);
     }
 }

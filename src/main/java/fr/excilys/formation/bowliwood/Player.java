@@ -1,35 +1,52 @@
 package fr.excilys.formation.bowliwood;
 
-import java.util.Random;
-
 /**
  * Created by tiberio on 09/12/2016.
  */
 public class Player {
     public String name;
     private int score = 0;
+    private int currentRoll = 0;
+    public int rolls[] = new int[21];
 
-    Player(String name){
-        this.name = name;
+    public void roll(int pins){
+        rolls[currentRoll++] = pins;
     }
 
-    public static void main(String [] args)
-    {
-        System.out.println("Hello!");
+    public int getScore(int currentFrame){
+        int frameIndex = 0;
+        for (int frame=0 ; frame < currentFrame; frame++) {
+            if (isStrike(frameIndex)) {
+                score += 10 + strikeBonus(frameIndex);
+                frameIndex++;
+            } else if (isSpare(frameIndex)) {
+                score += 10 + spareBonus(frameIndex);
+                frameIndex += 2;
+            } else {
+                score += sumOfBallsInFrame(frameIndex);
+                frameIndex += 2;
+            }
+        }
+        return score;
     }
 
-    public int getScore(){
-        return this.score;
+    private boolean isStrike(int frameIndex) {
+        return rolls[frameIndex] == 10;
     }
 
-    public int pinsHit( int pinsLeft ){
-        Random rand = new Random(pinsLeft);
-        return rand.nextInt(pinsLeft);
+    private int strikeBonus(int frameIndex) {
+        return rolls[frameIndex+1] + rolls[frameIndex+2];
     }
 
+    private boolean isSpare(int frameIndex) {
+        return rolls[frameIndex]+rolls[frameIndex+1] == 10;
+    }
 
+    private int spareBonus(int frameIndex) {
+        return rolls[frameIndex+2];
+    }
 
-
-
-
+    private int sumOfBallsInFrame(int frameIndex) {
+        return rolls[frameIndex] + rolls[frameIndex+1];
+    }
 }

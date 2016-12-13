@@ -7,8 +7,8 @@ import java.io.InputStreamReader;
  * Created by tiberio on 09/12/2016.
  */
 public class Game {
-    Player player1 = new Player("Tiberio");
-    Player player2 = new Player("Fernando");
+    Player player1 = new Player();
+    Player player2 = new Player();
     Player[] players = {player1, player2};
 
     void printMenu(){
@@ -51,7 +51,7 @@ public class Game {
         System.out.println("Score:");
         for (Player player: players){
             System.out.print("  Player: " + player.name);
-            System.out.println(" " + player.getScore());
+            System.out.println(" " + player.getScore(0));
         }
     }
 
