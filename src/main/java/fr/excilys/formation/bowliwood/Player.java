@@ -5,17 +5,17 @@ package fr.excilys.formation.bowliwood;
  */
 public class Player {
     public String name;
-    private int score = 0;
     private int currentRoll = 0;
-    public int rolls[] = new int[21];
+    private int rolls[] = new int[21];
 
     public void roll(int pins){
         rolls[currentRoll++] = pins;
     }
 
-    public int getScore(int currentFrame){
+    public int getScore(){
         int frameIndex = 0;
-        for (int frame=0 ; frame < currentFrame; frame++) {
+        int score = 0;
+        for (int frame=0 ; frame < 10; frame++) {
             if (isStrike(frameIndex)) {
                 score += 10 + strikeBonus(frameIndex);
                 frameIndex++;

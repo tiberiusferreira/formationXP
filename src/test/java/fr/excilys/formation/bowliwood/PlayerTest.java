@@ -26,13 +26,13 @@ public class PlayerTest {
     @Test
     public void testNullScore(){
         rollSeveral(20, 0);
-        assertEquals(p.getScore(10), 0);
+        assertEquals(p.getScore(), 0);
     }
 
     @Test
     public void testAllOnes(){
         rollSeveral(20, 1);
-        assertEquals(p.getScore(10), 20);
+        assertEquals(p.getScore(), 20);
     }
 
     @Test
@@ -40,7 +40,7 @@ public class PlayerTest {
         rollSpare();
         p.roll(2);
         rollSeveral(17, 0);
-        assertEquals(p.getScore(10), 14);
+        assertEquals(p.getScore(), 14);
     }
 
     @Test
@@ -49,12 +49,12 @@ public class PlayerTest {
         p.roll(2);
         p.roll(2);
         rollSeveral(16, 0);
-        assertEquals(p.getScore(10), 18);
+        assertEquals(p.getScore(), 18);
     }
 
     @Test
     public void testPerfectGame(){
         rollSeveral(12, 10);
-        assertEquals(p.getScore(10), 300);
+        assertEquals(p.getScore(), 300);
     }
 }

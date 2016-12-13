@@ -51,7 +51,42 @@ public class Game {
         System.out.println("Score:");
         for (Player player: players){
             System.out.print("  Player: " + player.name);
-            System.out.println(" " + player.getScore(0));
+            System.out.println(" " + player.getScore());
+        }
+    }
+
+    void playFrame(){
+        for (Player player: players) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            int pins1 = -1;
+
+            while(pins1<0 || pins1>10){
+                System.out.println(player.name + " it's your turn! Please insert the value of pins you hit for the first throw:");
+                try{
+                    pins1 = Integer.parseInt(br.readLine());
+                } catch(Exception nfe){
+                    System.err.println("Invalid Format!");
+                }
+            }
+            player.roll(pins1);
+            if (pins1 == 10){
+                System.out.println("STRIKE!");
+                continue;
+            }
+
+            int pins2 = -1;
+            while(pins2<0 || pins2>10-pins1){
+                System.out.println(player.name + " it's your turn! Please insert the value of pins you hit for the second throw:");
+                try{
+                    pins2 = Integer.parseInt(br.readLine());
+                } catch(Exception nfe){
+                    System.err.println("Invalid Format!");
+                }
+            }
+            player.roll(pins2);
+            if (pins1 + pins2 == 10){
+                System.out.println("SPARE!");
+            }
         }
     }
 
@@ -60,5 +95,9 @@ public class Game {
         Game game = new Game();
         game.printMenu();
         game.printScore();
+        for (int i=0 ; i<10 ; i++){
+            game.playFrame();
+            game.printScore();
+        }
     }
 }
