@@ -1,4 +1,4 @@
 # FormationXP
 This is the initial sources of your project for XP formation.
 
-Fernando is starting his sprint
+Fernando is finishing his sprint
