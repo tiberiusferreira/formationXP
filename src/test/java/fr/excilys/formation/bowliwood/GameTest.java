@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 public class GameTest {
     @Test
     public void testFailure() {
-        Game game = new Game();
+        Game game = new Game(3);
     }
 }
 

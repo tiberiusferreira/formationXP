@@ -1,6 +1,6 @@
 package fr.excilys.formation.bowliwood;
+
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 import static java.lang.System.exit;
@@ -9,29 +9,49 @@ import static java.lang.System.exit;
  * Created by tiberio on 09/12/2016.
  */
 public class Game {
-    Player player1 = new Player();
-    Player player2 = new Player();
-    Player[] players = {player1, player2};
-    void printRules(){
-        System.out.println("Please, follow this link to continue: http://www.pba.com/Resources/Bowling101 ");
+    /**
+     * Number of pins on the row.
+     */
+    protected static final int NB_PIN = 10;
+
+    /**
+     * Number of turn in a game.
+     */
+    protected static final int NB_ROLL = 10;
+
+    /**@ List of player competing.
+     */
+    private Player[] players;
+
+    /** Constructor for n players.
+     * @param n the number of players
+     */
+    Game(final int n) {
+        players = new Player[n];
     }
-    void printMenu(){
+
+    /**
+     * Display the game menu.
+     */
+    private void printMenu() {
         int i = -1;
-        while (i == -1){
+        while (i == -1) {
             System.out.println("Welcome the this amazing bowling game! ");
             System.out.println("Please type 0 to the see the rules");
             System.out.println("Please type 1 to start a game");
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            try{
+            BufferedReader br =
+                    new BufferedReader(
+                            new InputStreamReader(System.in));
+            try {
                 i = Integer.parseInt(br.readLine());
-            }catch(Exception nfe){
+            } catch (Exception nfe) {
                 System.err.println("Invalid Format!");
             }
-            if (i == 0){
+            if (i == 0) {
                 printRules();
                 i = -1;
             }
-            if (i == 1){
+            if (i == 1) {
                 for (Player player: players) {
                     getPlayerNames(player);
                 }
@@ -40,26 +60,46 @@ public class Game {
             }
         }
     }
-    void getPlayerNames(Player player){
+
+    /**
+     * Displays the rules on the screen.
+     */
+    private void printRules() {
+        System.out.println("Please, follow this link to continue: http://www.pba.com/Resources/Bowling101 ");
+    }
+
+    /**
+     * Set the name of a player from the command line.
+     * @param player the player to get the name of
+     */
+    private void getPlayerNames(final Player player) {
         System.out.println("Please enter the name of the player");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String name = null;
-        try{
+        try {
             name = br.readLine();
-        }catch(Exception nfe){
+        } catch (Exception nfe) {
             System.err.println("Invalid Format!");
         }
-        player.name = name;
+        player.setName(name);
     }
-    void printScore(){
+
+    /**
+     * Display the score of the players.
+     */
+    private void printScore() {
         System.out.println("Score:");
-        for (Player player: players){
-            System.out.print("  Player: " + player.name);
+        for (Player player: players) {
+            System.out.print("  Player: " + player.getName());
             System.out.println(" " + player.getScore());
         }
     }
 
-    int getRoll(){
+    /**
+     * Rolls a ball.
+     * @return number of pins rolled
+     */
+    private int getRoll() {
         int pins = -1;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
@@ -75,43 +115,56 @@ public class Game {
         }
         return pins;
     }
-    void playFrame(){
+
+    /**
+     * Make each player play.
+     */
+    private void playFrame() {
         for (Player player: players) {
             int pins1 = -1;
-            while(pins1<0 || pins1>10){
-                System.out.println(player.name + " it's your turn! Please insert the value of pins you hit for the first throw, -1 to quit or -2 to view the rules:");
+            while (pins1 < 0 || pins1 > Game.NB_PIN) {
+                System.out.println(player.getName() +
+                    " it's your turn! Please insert the value of pins you hit for the first throw, -1 to quit or -2 to view the rules:");
                 pins1 = getRoll();
             }
             player.roll(pins1);
-            if (pins1 == 10){
+            if (pins1 == Game.NB_PIN){
                 printStrike();
                 continue;
             }
 
             int pins2 = -1;
-            while (pins2 < 0 || pins2 > 10 - pins1) {
-                System.out.println(player.name + " it's your turn! Please insert the value of pins you hit for the second throw, -1 to quit or -2 to view the rules:");
+            while (pins2 < 0 || pins2 > Game.NB_PIN - pins1) {
+                System.out.println(player.getName() +
+                    " it's your turn! Please insert the value of pins you hit for the second throw, -1 to quit or -2 to view the rules:");
                 pins2 = getRoll();
             }
             player.roll(pins2);
-            if (pins1 + pins2 == 10) {
+            if (pins1 + pins2 == Game.NB_PIN) {
                 printSpare();
             }
         }
     }
 
+    /**
+     * Game entry point.
+     * @param args Commandline arguments
+     */
     public static void main(final String[] args) {
-        Game game = new Game();
+        Game game = new Game(10);
         game.printMenu();
         game.printScore();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < Game.NB_ROLL; i++) {
             game.playFrame();
             game.printScore();
         }
         System.out.println("End of Game!");
     }
 
-    void printStrike(){
+    /**
+     * Display Strike on the screen.
+     */
+    private void printStrike() {
         System.out.println("   _____   _______   _____    _____   _  __  ______     _   _   _   _ ");
         System.out.println("  / ____| |__   __| |  __ \\  |_   _| | |/ / |  ____|   | | | | | | | |");
         System.out.println(" | (___      | |    | |__) |   | |   | ' /  | |__      | | | | | | | |");
@@ -120,7 +173,11 @@ public class Game {
         System.out.println(" |_____/     |_|    |_|  \\_\\ |_____| |_|\\_\\ |______|   (_) (_) (_) (_)");
         System.out.println("                                                                       ");
     }
-    void printSpare(){
+
+    /**
+     * Display Spare on the screen.
+     */
+    private void printSpare() {
         System.out.println("   _____   _____               _____    ______     _   _   _   _ ");
         System.out.println("  / ____| |  __ \\      /\\     |  __ \\  |  ____|   | | | | | | | |");
         System.out.println(" | (___   | |__) |    /  \\    | |__) | | |__      | | | | | | | |");
