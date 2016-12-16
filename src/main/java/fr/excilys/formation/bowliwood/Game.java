@@ -103,7 +103,7 @@ public class Game {
      * Rolls a ball.
      * @return number of pins rolled
      */
-    private int getRoll(){
+    private int getRoll() {
         int pins = -1;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
@@ -113,6 +113,9 @@ public class Game {
             }
             if (pins == -2) {
                 printRules();
+            }
+            if (pins == -3) {
+                printScore();
             }
         } catch (Exception nfe) {
             System.err.println("Invalid Format!");
@@ -128,7 +131,7 @@ public class Game {
             int pins1 = -1;
             while (pins1 < 0 || pins1 > Game.NB_PIN) {
                 System.out.println(player.getName() +
-                    " it's your turn! Please insert the value of pins you hit for the first throw, -1 to quit or -2 to view the rules:");
+                    " it's your turn! Please insert the value of pins you hit for the first throw, -1 to quit, -2 to view the rules or -3 to see the score:");
                 pins1 = getRoll();
             }
             player.roll(pins1);
@@ -140,7 +143,7 @@ public class Game {
             int pins2 = -1;
             while (pins2 < 0 || pins2 > Game.NB_PIN - pins1) {
                 System.out.println(player.getName() +
-                    " it's your turn! Please insert the value of pins you hit for the second throw, -1 to quit or -2 to view the rules:");
+                        " it's your turn! Please insert the value of pins you hit for the first throw, -1 to quit, -2 to view the rules or -3 to see the score:");
                 pins2 = getRoll();
             }
             player.roll(pins2);
