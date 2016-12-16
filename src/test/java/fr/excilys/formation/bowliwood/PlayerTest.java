@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
  * Created by tiberio on 09/12/2016.
  */
 public class PlayerTest {
-    Player p = new Player();
+    private Player p = new Player();
 
     private void rollSeveral(int nTimes, int pins){
         for (int i = 0; i < nTimes; i++)

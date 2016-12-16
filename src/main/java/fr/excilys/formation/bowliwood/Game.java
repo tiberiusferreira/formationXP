@@ -12,12 +12,12 @@ public class Game {
     /**
      * Number of pins on the row.
      */
-    protected static final int NB_PIN = 10;
+    static final int NB_PIN = 10;
 
     /**
      * Number of turn in a game.
      */
-    protected static final int NB_ROLL = 10;
+    static final int NB_ROLL = 10;
 
     /**@ List of player competing.
      */
@@ -27,7 +27,10 @@ public class Game {
      * @param n the number of players
      */
     Game(final int n) {
-        players = new Player[n];
+        this.players = new Player[n];
+        for (int i = 0; i < n; i++) {
+            players[i] = new Player();
+        }
     }
 
     /**
@@ -53,7 +56,7 @@ public class Game {
             }
             if (i == 1) {
                 for (Player player: players) {
-                    getPlayerNames(player);
+                    setPlayerNames(player);
                 }
                 System.out.println("Let's start the game, folks!");
                 return;
@@ -68,11 +71,13 @@ public class Game {
         System.out.println("Please, follow this link to continue: http://www.pba.com/Resources/Bowling101 ");
     }
 
+
+
     /**
      * Set the name of a player from the command line.
      * @param player the player to get the name of
      */
-    private void getPlayerNames(final Player player) {
+    private void setPlayerNames(final Player player) {
         System.out.println("Please enter the name of the player");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String name = null;
@@ -83,7 +88,6 @@ public class Game {
         }
         player.setName(name);
     }
-
     /**
      * Display the score of the players.
      */
@@ -99,7 +103,7 @@ public class Game {
      * Rolls a ball.
      * @return number of pins rolled
      */
-    private int getRoll() {
+    private int getRoll(){
         int pins = -1;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
@@ -151,7 +155,7 @@ public class Game {
      * @param args Commandline arguments
      */
     public static void main(final String[] args) {
-        Game game = new Game(10);
+        Game game = new Game(2);
         game.printMenu();
         game.printScore();
         for (int i = 0; i < Game.NB_ROLL; i++) {

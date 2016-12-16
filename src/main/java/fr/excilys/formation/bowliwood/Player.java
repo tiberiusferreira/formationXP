@@ -65,10 +65,19 @@ public class Player {
         return score;
     }
 
+    /**
+     * Checks if the frame given corresponds to a strike
+     * @param frameIndex
+     * @return True if strike, false if not
+     */
     private boolean isStrike(final int frameIndex) {
         return rolls[frameIndex] == Game.NB_PIN;
     }
-
+    /**
+     * Returns the bonus of the strike which corresponds to the next two frames
+     * @param frameIndex
+     * @return the bonus
+     */
     private int strikeBonus(final int frameIndex) {
         return rolls[frameIndex + 1] + rolls[frameIndex + 2];
     }
